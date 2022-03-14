@@ -21,15 +21,8 @@ namespace Calculating
     /// </summary>
     public partial class MainWindow : Window
     {
-        public class Info {
-            public string sum()
-            {
-
-            }
-            private string first;
-            private string second;
-        }
-
+        string first = "";
+        string second = "0";
         public MainWindow()
         {
             InitializeComponent();
@@ -37,14 +30,34 @@ namespace Calculating
             {
                 if( elememnt is Button)
                 {
-                   ((Button)elememnt).Click += inClick;
+                   ((Button)elememnt).Click += onClick;
                 }
             }
         }
 
-        private void inClick(object sender, RoutedEventArgs e)
+        private void onClick(object sender, RoutedEventArgs e)
         {
             string str = ((Button)e.OriginalSource).Content.ToString();
+            switch (str)
+            {
+                case "+":
+                    first = new DataTable().Compute(mainLabel.Content.ToString(), null)+"+";
+                    second = "0";
+                    mainLabel.Content = first + second;
+                    break;
+                case "-":
+                    first = new DataTable().Compute(mainLabel.Content.ToString(), null) + "-";
+                    second = "0";
+                    mainLabel.Content = first + second;
+                    break;
+                default:
+                    if (second == "0")
+                        second = str;
+                    else
+                        second += str;
+                    break;
+                   
+            }
         }
     }
 }
