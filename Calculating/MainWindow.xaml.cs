@@ -40,10 +40,13 @@ namespace Calculating
         private void onClick(object sender, RoutedEventArgs e)
         {
             string str = ((Button)e.OriginalSource).Content.ToString();
-            if (Regex.IsMatch(mainLabel.Content.ToString(), @".*[-+/*].*") && Regex.IsMatch(str,"[-+/*=]"))
-                historyLabel.Text += first + second + '\n';
+            if (first!="" && Regex.IsMatch(str,"^[-+/X=]$"))
+                //Regex.IsMatch(mainLabel.Content.ToString(), @".*[-+/X].*")
+                historyLabel.Text = first + second + '\n'+ historyLabel.Text;
             switch (str)
             {
+                case "%":
+                    break;
                 case "+":
                     first = new DataTable().Compute(mainLabel.Content.ToString(), null).ToString().Replace(',', '.') +"+";
                     second = "0";
@@ -109,6 +112,9 @@ namespace Calculating
                     break;
             }
             mainLabel.Content = first + second;
+            if (!Regex.IsMatch(mainLabel.Content.ToString(), @"^[-\d]"))
+                mainLabel.Content = "0";
         }
+
     }
 }
